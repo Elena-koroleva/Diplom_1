@@ -20,20 +20,20 @@ public class BurgerParamTest {
     @Mock
     private Bun mockBun;
     @Mock
-    private Ingredient mockIngredient1;
+    private Ingredient mockSauce;
     @Mock
-    private Ingredient mockIngredient2;
+    private Ingredient mockFilling;
 
     private final float bunPrice;
-    private final float ingredient1Price;
-    private final float ingredient2Price;
+    private final float saucePrice;
+    private final float fillingPrice;
     private final float expectedPrice;
     private final int ingredientsCount; // Сколько ингредиентов нужно добавить в этом тесте
 
     public BurgerParamTest(float bunPrice, float ingredient1Price, float ingredient2Price, int ingredientsCount, float expectedPrice) {
         this.bunPrice = bunPrice;
-        this.ingredient1Price = ingredient1Price;
-        this.ingredient2Price = ingredient2Price;
+        this.saucePrice = ingredient1Price;
+        this.fillingPrice = ingredient2Price;
         this.ingredientsCount = ingredientsCount;
         this.expectedPrice = expectedPrice;
     }
@@ -57,16 +57,16 @@ public class BurgerParamTest {
     public void getPriceDifferentInputsReturnsCorrectTotalPrice() {
         //Обучаем моки возвращать цены
         Mockito.when(mockBun.getPrice()).thenReturn(bunPrice);
-        Mockito.when(mockIngredient1.getPrice()).thenReturn(ingredient1Price);
-        Mockito.when(mockIngredient2.getPrice()).thenReturn(ingredient2Price);
+        Mockito.when(mockSauce.getPrice()).thenReturn(saucePrice);
+        Mockito.when(mockFilling.getPrice()).thenReturn(fillingPrice);
 
         //Собираем бургер
         burger.setBuns(mockBun);
         if (ingredientsCount >= 1) {
-            burger.addIngredient(mockIngredient1);
+            burger.addIngredient(mockSauce);
         }
         if (ingredientsCount == 2) {
-            burger.addIngredient(mockIngredient2);
+            burger.addIngredient(mockFilling);
         }
 
         //Считаем цену и проверяем результат

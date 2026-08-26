@@ -51,30 +51,38 @@ public class BurgerTest {
                 mockFilling, burger.ingredients.get(0));
     }
     //вывод чека
-    @Test
-    public void getReceiptValidBurgerReturnsFormattedStringTest() {
-        //Обучаем моки возвращать нужные строки и цены
+    //метод для подготовки стандартного бургера с настроенными моками
+    private void prepareBurgerWithIngredients() {
         Mockito.when(mockBun.getName()).thenReturn("black bun");
         Mockito.when(mockBun.getPrice()).thenReturn(100.0f);
-
         Mockito.when(mockSauce.getType()).thenReturn(IngredientType.SAUCE);
         Mockito.when(mockSauce.getName()).thenReturn("hot sauce");
         Mockito.when(mockSauce.getPrice()).thenReturn(50.0f);
-
         //Собираем бургер
         burger.setBuns(mockBun);
         burger.addIngredient(mockSauce);
-
-        //Получаем чек бургера
+    }
+    @Test
+    public void getReceiptContainsBunNameTest() {
+        prepareBurgerWithIngredients();
         String receipt = burger.getReceipt();
-
-        //Проверка
-        assertTrue("Чек должен содержать имя булочки",
+        assertTrue("Чек должен содержать отформатированное имя булочки",
                 receipt.contains("(==== black bun ====)"));
-        assertTrue("Чек должен содержать тип и имя ингредиента",
+    }
+
+    @Test
+    public void getReceiptContainsIngredientDataTest() {
+        prepareBurgerWithIngredients();
+        String receipt = burger.getReceipt();
+        assertTrue("Чек должен содержать тип и имя добавленного ингредиента",
                 receipt.contains("= sauce hot sauce ="));
+    }
+
+    @Test
+    public void getReceiptContainsTotalPriceTest() {
+        prepareBurgerWithIngredients();
+        String receipt = burger.getReceipt();
         assertTrue("Чек должен содержать правильную итоговую цену",
                 receipt.contains("Price: 250"));
     }
-
 }
